@@ -17,7 +17,6 @@ public class Dashboard {
 
   public void displayWinner(Party party) {
     displayHeading("Winner");
-    // FIXME:  THESE OPTIONALS ARE UGLYYYYYYY!!!!!
     System.out.println(party.getAdjustedWinner());
   }
 
@@ -39,8 +38,12 @@ public class Dashboard {
 
   public void displaySheetDetail(Sheet sheet) {
     displayHeading("Detail for " + sheet.getName());
-    System.out.println("Course Average: " + sheet.getCourseAverage());
-    System.out.println("Adjusted Course average: " + sheet.getAdjustedCourseAverage());
+    sheet.getCourseAverage()
+        .ifPresent(avg -> System.out.println("Course Average: " + avg));
+    
+    sheet.getAdjustedCourseAverage()
+        .ifPresent(cavg -> System.out.println("Adjusted Course average: " + cavg));
+
     System.out.println("HOLE\t\tSCORE\t\tPAR");
     IntStream.rangeClosed(1, Sheet.PAR.length)
             .mapToObj(hole -> String.format("%d.\t\t\t%d\t\t\t%d",
